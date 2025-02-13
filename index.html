@@ -522,8 +522,7 @@
                 <span class="highlight-text">◆美眉メニュー◆</span>
             </div>
             <div class="symptoms">
-                <button type="button" onclick="selectSymptom(this, 'treatment1')"
-                    data-price="15000">ハリウッドブロウリフト(HBL)</button>
+                <button type="button" onclick="selectSymptom(this, 'treatment1')" data-price="1">ハリウッドブロウリフト(HBL)</button>
                 <button type="button" onclick="selectSymptom(this, 'treatment2')" data-price="15000">眉デザインWAX</button>
             </div>
         </div>
@@ -544,8 +543,7 @@
                 <span class="highlight-text">◆美容整体メニュー◆</span>
             </div>
             <div class="symptoms">
-                <button type="button" onclick="selectSymptom(this, 'treatment5')" data-price="15000">クイックコース
-                    30分</button>
+                <button type="button" onclick="selectSymptom(this, 'treatment5')" data-price="15000">クイックコース 30分</button>
                 <button type="button" onclick="selectSymptom(this, 'treatment6')" data-price="15000">全身コース 60分</button>
             </div>
         </div>
@@ -555,9 +553,8 @@
                 <span class="highlight-text">◆小顔脳洗浄メニュー◆</span>
             </div>
             <div class="symptoms">
-                <button type="button" onclick="selectSymptom(this, 'treatment7')" data-price="15000">デフォルトコース
-                    60分</button>
-                <button type="button" onclick="selectSymptom(this, 'treatment8')" data-price="15000">オイルコース 90分</button>
+                <button type="button" onclick="selectSymptom(this, 'treatment7')" data-price="1">デフォルトコース 60分</button>
+                <button type="button" onclick="selectSymptom(this, 'treatment8')" data-price="1">オイルコース 90分</button>
             </div>
         </div>
 
@@ -566,10 +563,8 @@
                 <span class="highlight-text">◆よもぎ蒸しメニュー◆</span>
             </div>
             <div class="symptoms">
-                <button type="button" onclick="selectSymptom(this, 'treatment9')" data-price="15000">クイックコース
-                    30分</button>
-                <button type="button" onclick="selectSymptom(this, 'treatment10')" data-price="15000">じっくりコース
-                    50分</button>
+                <button type="button" onclick="selectSymptom(this, 'treatment9')" data-price="1">クイックコース 30分</button>
+                <button type="button" onclick="selectSymptom(this, 'treatment10')" data-price="1">じっくりコース 50分</button>
             </div>
         </div>
 
@@ -650,8 +645,8 @@
 
         // 訪問回数ごとの時間設定 (例：初めて=20分、2回目以降=15分)
         let visitTimes = {
-            '1回目': 0,
-            '2回目以降': 0
+            '初回': 0,
+            'リピーター様': 0
         };
 
         let selectedVisitTime = 0; // 訪問回数で選択された時間
@@ -824,7 +819,7 @@
                     'ハリウッドブロウリフト（HBL）',
                     'https://www.dropbox.com/scl/fi/k0stpqbl53q7ttm46iznw/HBL.png?rlkey=whnz03jog6863gqligzdi4z1h&st=ui5tu3yy&raw=1',
                     '眉毛を自由自在に操り<br>お顔の80%の印象、額縁とも言われる｢眉毛｣!!<br>眉毛を整える時代、一気に印象が変わります!',
-                    '初回￥6,500　次回￥7,000',
+                    '￥7,000',
                     '120分'
                 );
             } else if (treatmentId === 'treatment2') {
@@ -1108,7 +1103,7 @@
                 return;
             }
 
-            const url = 'https://script.google.com/macros/s/AKfycbyE7cet9cOwuJ9XPHW8S8CXOebq2u1OOB0pvRe-_2DREw4yK1wzHaMHoOlBgpNEXIbP/exec' +
+            const url = 'https://script.google.com/macros/s/AKfycby-3IwnSSTGpYIN27wFTbtCTySjc3mGWjFY737BHh-Am65SuhPdWkg6J2NaTNWhY4Yk/exec' +
                 `?startTime=${startTime.toISOString()}&endTime=${endTime.toISOString()}`;
 
             try {
