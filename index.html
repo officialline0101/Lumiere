@@ -15,7 +15,7 @@
             /* さらに右へ */
             top: 80%;
             /* 画面中央に固定 */
-            transform: translateY(-50%) translateX(20px);
+            transform: translateY(-50%) translateX(16px);
             /* 中央配置と右ずらし */
             background: #ff8ca7;
             display: flex;
@@ -96,7 +96,7 @@
             background-color: #fdfdfd;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            width: 90%;
+            width: 96%;
             max-width: 500px;
             padding: 25px;
             box-sizing: border-box;
@@ -425,10 +425,10 @@
         }
 
         #treatment-text {
-            background-color: #eef9f5;
-            padding: 10px;
-            border-radius: 4px;
-            margin-top: 1px;
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+            margin-top: 10px;
         }
 
         .highlight-background {
@@ -705,62 +705,150 @@
             margin-top: 30px;
         }
 
-        .treatment-container {
-            text-align: center;
-            padding: 10px;
-            background-color: #ffffff;
-            color: #333;
-            border-radius: 8px;
-            border: 1px solid #ff8ca7;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        /* ============================
+           Treatment カード統合型デザイン
+           ============================ */
+        .treatment-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(255, 140, 167, 0.15);
             max-width: 350px;
-            margin: auto;
+            margin: 15px auto;
+            animation: fadeInUp 0.4s ease-out;
         }
 
-        .treatment-image {
-            text-align: center;
-            margin-top: 15px;
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ヒーロー画像エリア */
+        .treatment-card .hero-image {
             position: relative;
             width: 100%;
-            max-width: 300px;
-            height: 180px;
-            border-radius: 8px;
+            height: 200px;
             overflow: hidden;
-            border: 1px solid #ff8ca7;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin: 15px auto;
         }
 
-        .treatment-description {
-            margin-top: 15px;
-            padding: 15px;
-            background-color: #fafafa;
+        .treatment-card .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 画像下部のグラデーションオーバーレイ */
+        .treatment-card .hero-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65%;
+            background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+            pointer-events: none;
+        }
+
+        /* タイトル（画像上に重ねる） */
+        .treatment-card .hero-title {
+            position: absolute;
+            bottom: 12px;
+            left: 16px;
+            right: 16px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            z-index: 1;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+            letter-spacing: 0.5px;
+        }
+
+        /* ローディングスピナー（画像読み込み中） */
+        .treatment-card .hero-image .spinner-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        /* 説明エリア */
+        .treatment-card .card-description {
+            padding: 14px 18px;
             color: #555;
-            border-radius: 8px;
-            border: 1px solid #ff8ca7;
-            font-size: 14px;
-            line-height: 1.5;
-            text-align: left;
-            max-width: 350px;
-            margin: 15px auto;
+            font-size: 13px;
+            line-height: 1.8;
+            border-left: 3px solid #ff8ca7;
+            margin: 14px 16px;
+            background: linear-gradient(135deg, #fff5f7, #ffffff);
+            border-radius: 0 8px 8px 0;
         }
 
-        .treatment-price {
-            margin-top: 15px;
-            padding: 10px;
-            background: #fff;
-            color: #333;
-            border-radius: 8px;
-            border: 1px solid #ff8ca7;
-            font-weight: bold;
-            font-size: 15px;
-            text-align: right;
-            max-width: 350px;
-            margin: 15px auto;
+        /* 価格・時間エリア */
+        .treatment-card .price-info {
+            margin: 0 16px 16px;
+            background: linear-gradient(135deg, #fff9fb, #fff0f3);
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #ffe0e6;
+        }
+
+        /* 期間限定バッジ */
+        .treatment-card .limited-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #e74c3c, #ff6b6b);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        /* 価格行 */
+        .treatment-card .price-line {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 10px;
+            padding: 6px 0;
+            font-size: 13px;
+            color: #555;
+            border-bottom: 1px dashed #ffe0e6;
+        }
+
+        .treatment-card .price-line:last-of-type {
+            border-bottom: none;
+        }
+
+        /* 初回価格の強調 */
+        .treatment-card .price-line.highlight {
+            color: #e74c3c;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        /* 通常価格（1行のみ） */
+        .treatment-card .price-single {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            padding: 4px 0;
+        }
+
+        /* 所要時間 */
+        .treatment-card .time-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ffe0e6;
+            font-size: 13px;
+            color: #888;
         }
 
         .spinner-overlay {
@@ -823,7 +911,7 @@
                 <span class="highlight-text">◆美眉メニュー◆</span>
             </div>
             <div class="symptoms">
-                <button type="button" onclick="selectSymptom(this, 'treatment1')" data-price="1">ハリウッドブロウリフト(HBL)</button>
+                <button type="button" onclick="selectSymptom(this, 'treatment1')" data-price="1">HBL(ハリウッドブロウリフト)</button>
                 <button type="button" onclick="selectSymptom(this, 'treatment2')" data-price="15000">眉デザインWAX</button>
             </div>
         </div>
@@ -971,7 +1059,7 @@
         let selectedirradiationsTime = 0; // 訪問回数で選択された時間
 
         let menuTimes = {
-            'ハリウッドブロウリフト(HBL)': 119,
+            'HBL(ハリウッドブロウリフト)': 119,
             '眉デザインWAX': 119,
             'セルマン-ツヤ玉トリートメント-': 119,
             'フェイシャルWAX': 119,
@@ -1154,34 +1242,66 @@
             // カレンダーを更新するために取得する日付を渡す
             fetchAvailability(currentDate);
 
+            // 通常メニュー用テンプレート
             function createTreatmentContent(title, imageUrl, description, price, time) {
                 return `
-        <div class="treatment-container">
-            <div style="font-size: 18px; font-weight: bold;">${title}</div>
-        </div>
-
-        <div class="treatment-image">
-            <div class="spinner-overlay">
-                <div class="spinner"></div>
+        <div class="treatment-card">
+            <div class="hero-image">
+                <div class="spinner-overlay">
+                    <div class="spinner"></div>
+                </div>
+                <img src="${imageUrl}" alt="${title}" style="display: none;"
+                     onload="this.style.display='block'; this.previousElementSibling.style.display='none';">
+                <div class="hero-title">${title}</div>
             </div>
-            <img src="${imageUrl}" alt="${title}" style="width: 100%; height: 100%; display: none;" 
-                 onload="this.style.display='block'; this.previousElementSibling.style.display='none';">
-        </div>
+            <div class="card-description">${description}</div>
+            <div class="price-info">
+                <div class="price-single">
+                    <span>価格</span><span>${price}</span>
+                </div>
+                <div class="time-info">
+                    所要時間：${time}
+                </div>
+            </div>
+        </div>`;
+            }
 
-        <div class="treatment-description">${description}</div>
-
-        <div class="treatment-price">
-            <span>価格：</span><span>${price}</span><br>
-            <span>所要時間：</span><span>${time}</span>
+            // HBL段階料金用テンプレート
+            function createTieredPriceContent(title, imageUrl, description, time) {
+                return `
+        <div class="treatment-card">
+            <div class="hero-image">
+                <div class="spinner-overlay">
+                    <div class="spinner"></div>
+                </div>
+                <img src="${imageUrl}" alt="${title}" style="display: none;"
+                     onload="this.style.display='block'; this.previousElementSibling.style.display='none';">
+                <div class="hero-title">${title}</div>
+            </div>
+            <div class="card-description">${description}</div>
+            <div class="price-info">
+                <span class="limited-badge">🔥 期間限定価格</span>
+                <div class="price-line highlight">
+                    <span>初回</span><span>￥3,900</span>
+                </div>
+                <div class="price-line">
+                    <span>2・3回目</span><span>￥4,900</span>
+                </div>
+                <div class="price-line">
+                    <span>4回目以降</span><span>￥7,000</span>
+                </div>
+                <div class="time-info">
+                    所要時間：${time}
+                </div>
+            </div>
         </div>`;
             }
 
             if (treatmentId === 'treatment1') {
-                treatmentText.innerHTML = createTreatmentContent(
-                    'ハリウッドブロウリフト（HBL）',
+                treatmentText.innerHTML = createTieredPriceContent(
+                    'HBL(ハリウッドブロウリフト)',
                     'https://www.dropbox.com/scl/fi/v6o65pnbejsw43j0te7p0/HBL-_7-9-16.jpg?rlkey=8vlhz12luw4bq2irj62segpwl&st=me92e4cf&raw=1',
                     '翌朝ハッとするほどなんか綺麗に<br>その秘密は「HBL」<br>整った眉で、メイクも一瞬で決まります!!',
-                    '￥7,000',
                     '120分'
                 );
             } else if (treatmentId === 'treatment2') {
