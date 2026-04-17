@@ -921,7 +921,7 @@
                 <span class="highlight-text">◆ツヤ肌メニュー◆</span>
             </div>
             <div class="symptoms">
-                <button type="button" onclick="selectSymptom(this, 'treatment3')" data-price="15000">セルマン-ツヤ玉トリートメント-</button>
+                <button type="button" onclick="selectSymptom(this, 'treatment3')" data-price="15000">セルマン 艶玉トリートメント</button>
                 <button type="button" onclick="selectSymptom(this, 'treatment4')" data-price="15000">フェイシャルWAX</button>
             </div>
         </div>
@@ -1061,7 +1061,7 @@
         let menuTimes = {
             'HBL(ハリウッドブロウリフト)': 89,
             '眉デザインWAX': 89,
-            'セルマン-ツヤ玉トリートメント-': 119,
+            'セルマン 艶玉トリートメント': 119,
             'フェイシャルWAX': 89,
             '整体クイックコース 30分': 59,
             '整体全身コース 60分': 89,
@@ -1313,13 +1313,29 @@
                     '90分'
                 );
             } else if (treatmentId === 'treatment3') {
-                treatmentText.innerHTML = createTreatmentContent(
-                    'セルマン-ツヤ玉トリートメント-',
-                    'https://www.dropbox.com/scl/fi/ce4j2f6du1vaiyf3yvuqr/.jpg?rlkey=3rtw4084q976ml8e9cc7puoae&st=dsj5pue7&raw=1',
-                    '韓国式肌管理「セルマン」<br>古い角質を整え、肌の土台から美しさを引き出す。<br>1回でも変化を感じる方多数。<br>続けるほど、透明感とツヤに満ちたお肌へ。<br>鏡を見るのが楽しみになる肌へ。<br>今の肌を変えたい方は、ぜひ一度ご体感ください。',
-                    '￥22,000',
-                    '120分'
-                );
+                treatmentText.innerHTML = `
+        <div class="treatment-card">
+            <div class="hero-image">
+                <div class="spinner-overlay">
+                    <div class="spinner"></div>
+                </div>
+                <img src="https://www.dropbox.com/scl/fi/ce4j2f6du1vaiyf3yvuqr/.jpg?rlkey=3rtw4084q976ml8e9cc7puoae&st=dsj5pue7&raw=1" alt="セルマン 艶玉トリートメント" style="display: none;"
+                     onload="this.style.display='block'; this.previousElementSibling.style.display='none';">
+                <div class="hero-title">セルマン 艶玉トリートメント</div>
+            </div>
+            <div class="card-description">韓国式肌管理「セルマン」<br>古い角質を整え、肌の土台から美しさを引き出す。<br>1回でも変化を感じる方多数。<br>続けるほど、透明感とツヤに満ちたお肌へ。<br>鏡を見るのが楽しみになる肌へ。<br>今の肌を変えたい方は、ぜひ一度ご体感ください。</div>
+            <div class="price-info">
+                <div class="price-line highlight">
+                    <span>初回体験</span><span>￥16,500</span>
+                </div>
+                <div class="price-line">
+                    <span>2回目以降</span><span>￥22,000</span>
+                </div>
+                <div class="time-info">
+                    所要時間：120分
+                </div>
+            </div>
+        </div>`;
             } else if (treatmentId === 'treatment4') {
                 treatmentText.innerHTML = createTreatmentContent(
                     'フェイシャルWAX',
