@@ -1733,14 +1733,6 @@
                         continue;
                     }
 
-                    // 15:00～15:15の時間帯は予約不可
-                    if ((slotStart.getHours() === 15 && slotStart.getMinutes() >= 0 && slotStart.getMinutes() <= 15) ||
-                        (slotStart.getHours() < 15 && slotEnd.getHours() >= 15)) {
-                        cell.textContent = '✕';
-                        cell.classList.add('unavailable');
-                        continue;
-                    }
-
 // 17:30～18:00 の時間帯をまたぐ予約は不可
 if (
     (slotStart.getHours() === 17 && slotStart.getMinutes() >= 30) || // 17:30以降開始
@@ -1804,12 +1796,12 @@ if (
                         cell.setAttribute('data-date', slotStart.toISOString());
                         continue;
                     }
-                    // 15:01 - 18:00 を✕に設定（月、火、水、木、金、日）
+                    // 日曜の午後（15:00以降）は予約不可。平日・土曜は15:00/15:30を開放
                     if (
-                        ([0, 1, 2, 3, 4, 5].includes(slotStart.getDay())) && // 日、月、火、水、木、金
+                        (slotStart.getDay() === 0) && // 日曜のみ
                         (
-                            (slotStart.getHours() === 15 && slotStart.getMinutes() >= 1) || // 15:01以降
-                            (slotStart.getHours() >= 16 && slotStart.getHours() < 18)       // 16:00～17:59
+                            (slotStart.getHours() === 15) ||                          // 15:00～15:59
+                            (slotStart.getHours() >= 16 && slotStart.getHours() < 18)  // 16:00～17:59
                         )
                     ) {
                         cell.textContent = '✕';
@@ -1881,7 +1873,7 @@ if (
                         });
                         if (hasEvent2) {
                             const startIdx2 = times.indexOf('13:00');
-                            const endIdx2 = times.indexOf('15:00');
+                            const endIdx2 = times.indexOf('13:00');
                             for (let j = startIdx2; j <= endIdx2; j++) {
                                 const cell = table.rows[j].cells[i + 1];
                                 cell.textContent = '✕';
@@ -1890,9 +1882,9 @@ if (
                             }
                         }
 
-                        // 【15:30～17:30の処理（新しく追加）】
+                        // 【15:00～17:30の処理（15:00と15:30は時間が重なるので連動）】
                         const fixedStart3 = new Date(day);
-                        fixedStart3.setHours(15, 30, 0, 0);
+                        fixedStart3.setHours(15, 0, 0, 0);
                         const fixedEnd3 = new Date(day);
                         fixedEnd3.setHours(17, 30, 0, 0);
                         const hasEvent3 = availability.some(slot => {
@@ -1901,8 +1893,8 @@ if (
                             return eventStart < fixedEnd3 && fixedStart3 < eventEnd;
                         });
                         if (hasEvent3) {
-                            const startIdx3 = times.indexOf('15:30');
-                            const endIdx3 = times.indexOf('17:30');
+                            const startIdx3 = times.indexOf('15:00');
+                            const endIdx3 = times.indexOf('15:30');
                             for (let j = startIdx3; j <= endIdx3; j++) {
                                 const cell = table.rows[j].cells[i + 1];
                                 cell.textContent = '✕';
@@ -1932,9 +1924,9 @@ if (
                             }
                         }
 
-                        // 【13:00～15:00の処理】
+                        // 【13:00の処理】
                         const startIdx2 = times.indexOf('13:00');
-                        const endIdx2 = times.indexOf('15:00');
+                        const endIdx2 = times.indexOf('13:00');
                         let hasX2 = false;
                         for (let j = startIdx2; j <= endIdx2; j++) {
                             if (table.rows[j].cells[i + 1].textContent === '✕') {
@@ -1951,9 +1943,9 @@ if (
                             }
                         }
 
-                        // 【15:30～17:30の処理（新しく追加）】
-                        const startIdx3 = times.indexOf('15:30');
-                        const endIdx3 = times.indexOf('17:30');
+                        // 【15:00～15:30の処理（時間が重なるので連動）】
+                        const startIdx3 = times.indexOf('15:00');
+                        const endIdx3 = times.indexOf('15:30');
                         let hasX3 = false;
                         for (let j = startIdx3; j <= endIdx3; j++) {
                             if (table.rows[j].cells[i + 1].textContent === '✕') {
