@@ -1648,7 +1648,7 @@
             const table = calendar.querySelector('table tbody');
 
             const times = [
-                '10:00', '13:00', '15:30'
+                '10:00', '13:00', '15:00', '15:30'
             ];
 
             if (table.rows.length === 0) {
@@ -1796,21 +1796,34 @@ if (
                         cell.setAttribute('data-date', slotStart.toISOString());
                         continue;
                     }
-                    // 日曜の午後（15:00以降）は予約不可。平日・土曜は15:00/15:30を開放
-                    if (
-                        (slotStart.getDay() === 0) && // 日曜のみ
-                        (
-                            (slotStart.getHours() === 15) ||                          // 15:00～15:59
-                            (slotStart.getHours() >= 16 && slotStart.getHours() < 18)  // 16:00～17:59
-                        )
-                    ) {
-                        cell.textContent = '✕';
-                        cell.classList.add('unavailable');
-                        cell.setAttribute('data-date', slotStart.toISOString());
-                        continue;
+                    // === 午後の枠（15:00 / 15:30）の曜日・メニュー別の出し分け ===
+                    if (times[j] === '15:00' || times[j] === '15:30') {
+                        const dow = slotStart.getDay(); // 0=日, 1=月 ... 6=土
+                        // 所要時間が長いメニュー（セルマン/脳洗浄90分/顔タイプ診断/メニュー2つ 等＝119分以上）は15:30、それ以外は15:00
+                        const afternoonDuration = (selectedMenuTime || 0) + (selectedVisitTime || 0) + (selectedirradiationsTime || 0);
+                        const isLongMenu = afternoonDuration >= 100;
+
+                        let allowSlot;
+                        if (dow === 0) {
+                            // 日曜：午後は休み（15:00・15:30とも不可）
+                            allowSlot = false;
+                        } else if (dow === 6) {
+                            // 土曜：長いメニュー→15:30のみ、短いメニュー→15:00のみ
+                            allowSlot = isLongMenu ? (times[j] === '15:30') : (times[j] === '15:00');
+                        } else {
+                            // 平日（月～金）：15:00のみ
+                            allowSlot = (times[j] === '15:00');
+                        }
+
+                        if (!allowSlot) {
+                            cell.textContent = '✕';
+                            cell.classList.add('unavailable');
+                            cell.setAttribute('data-date', slotStart.toISOString());
+                            continue;
+                        }
                     }
                     // 日曜日で、営業日ではない場合
-                    else if (slotStart.getDay() === 0 && !isBusinessDay && businessEventTimes.length === 0) {
+                    if (slotStart.getDay() === 0 && !isBusinessDay && businessEventTimes.length === 0) {
                         cell.textContent = '✕';
                         cell.classList.add('unavailable');
                     }
